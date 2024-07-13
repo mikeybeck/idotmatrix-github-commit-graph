@@ -109,14 +109,14 @@ def display_numbers(number, last_year = False):
 
     y_offset = 0
     if last_year:
-        y_offset = 18
+        y_offset = 16
 
     for digit_index, digit in enumerate(number_str):
         for row in range(5):
             for col in range(3):
                 if digit_patterns[digit][row][col] == '#':
-                    x = col
-                    y = digit_index * 6 + row + y_offset # 6 units per digit (5 for the digit + 1 space)
+                    x = col + 1
+                    y = digit_index * 6 + row + y_offset + 3
 
                     filled_pixels.append(f"{x}-{y}-0-255-0")
 
