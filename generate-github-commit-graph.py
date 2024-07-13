@@ -12,11 +12,11 @@ def get_github_contributions(username, year):
 
 def map_color_to_rgb(intensity):
     color_map = {
-        0: (235, 237, 240),  # lightest
-        1: (155, 233, 168),
-        2: (64, 196, 99),
-        3: (48, 161, 78),
-        4: (33, 110, 57)     # darkest
+        0: (0, 0, 0),
+        1: (0, 50, 0),
+        2: (0, 100, 0),
+        3: (0, 175, 0),
+        4: (0, 255, 0)
     }
     return color_map.get(intensity, (0, 0, 0))
 
