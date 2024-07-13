@@ -26,11 +26,11 @@ def generate_contribution_graph(username, year, is_previous_year = False):
 
     output = []
 
-    start_y_1 = 0
-    start_y_2 = 8
+    start_y_1 = 1
+    start_y_2 = 9
     if is_previous_year:
-        start_y_1 = 16
-        start_y_2 = 24
+        start_y_1 = 17
+        start_y_2 = 25
 
         # Display a row of blue squares to separate the two halves
         for x in range(32):
