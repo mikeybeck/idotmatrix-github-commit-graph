@@ -26,21 +26,28 @@ def generate_contribution_graph(username, year):
 
     output = []
     contribution_index = 0
-    for x in range(32):
-        for y in range(8):
-            r, g, b = 0, 0, 0  # Initialize with default values
-            if y < 7 and contribution_index < len(contributions):
+    for x in range(6, 32):
+        for y in range(7):
+            r, g, b = 0, 0, 0
+            intensity = 0
+            if contribution_index < len(contributions):
                 intensity = contributions[contribution_index]['level']
                 r, g, b = map_color_to_rgb(intensity)
                 contribution_index += 1
-            # dont add to output if intensity is 0
             if intensity != 0:
                 output.append(f"{x}-{y}-{r}-{g}-{b}")
 
+    # Display a row of blue squares to separate the two halves
     for x in range(32):
+        y = 7
+        r, g, b = 0, 0, 255
+        output.append(f"{x}-{y}-{r}-{g}-{b}")
+
+    for x in range(6, 32):
         for y in range(8, 16):
             r, g, b = 0, 0, 0
-            if y < 16 and contribution_index < len(contributions):
+            intensity = 0
+            if contribution_index < len(contributions):
                 intensity = contributions[contribution_index]['level']
                 r, g, b = map_color_to_rgb(intensity)
                 contribution_index += 1
@@ -50,11 +57,18 @@ def generate_contribution_graph(username, year):
     return " ".join(output)
 
 if len(sys.argv) < 2:
-    print("Usage: python generate-github-commit-graph.py <username>")
+    print("Usage: python generate-github-commit-graph.py <username> [year]")
     sys.exit(1)
 
 username = sys.argv[1]
-year = datetime.datetime.now().year
+if len(sys.argv) > 2:
+    try:
+        year = int(sys.argv[2])
+    except ValueError:
+        print("Year must be a number.")
+        sys.exit(1)
+else:
+    year = datetime.datetime.now().year
 
 try:
     result = generate_contribution_graph(username, year)
