@@ -51,7 +51,7 @@ def generate_contribution_graph(username, year, is_previous_year = False):
                 output.append(f"{x}-{y}-{r}-{g}-{b}")
 
     # Display a row of blue squares to separate the two halves
-    for x in range(32):
+    for x in range(6, 32):
         y = start_y_1 + 7
         r, g, b = 0, 0, 255
         output.append(f"{x}-{y}-{r}-{g}-{b}")
@@ -78,9 +78,9 @@ def generate_contribution_graph(username, year, is_previous_year = False):
     if current_week > 26:
         current_week = current_week - 26
 
-    for x in range (32):
+    for x in range (6, 32):
         y = 0
-        if x <= current_week:
+        if x <= current_week + 5:
             r, g, b = 0, 0, 255
         else:
             r, g, b = 0, 0, 100
@@ -88,6 +88,40 @@ def generate_contribution_graph(username, year, is_previous_year = False):
         output.append(f"{x}-{y}-{r}-{g}-{b}")
 
     return " ".join(output)
+
+def display_numbers(number, last_year = False):
+    digit_patterns = {
+        '0': ['###', '# #', '# #', '# #', '###'],
+        '1': [' # ', '## ', ' # ', ' # ', '###'],
+        '2': ['###', '  #', '###', '#  ', '###'],
+        '3': ['###', '  #', '###', '  #', '###'],
+        '4': ['# #', '# #', '###', '  #', '  #'],
+        '5': ['###', '#  ', '###', '  #', '###'],
+        '6': ['###', '#  ', '###', '# #', '###'],
+        '7': ['###', '  #', ' # ', ' # ', ' # '],
+        '8': ['###', '# #', '###', '# #', '###'],
+        '9': ['###', '# #', '###', '  #', '###']
+    }
+
+    number_str = str(number)
+
+    filled_pixels = []
+
+    y_offset = 0
+    if last_year:
+        y_offset = 18
+
+    for digit_index, digit in enumerate(number_str):
+        for row in range(5):
+            for col in range(3):
+                if digit_patterns[digit][row][col] == '#':
+                    x = col
+                    y = digit_index * 6 + row + y_offset # 6 units per digit (5 for the digit + 1 space)
+
+                    filled_pixels.append(f"{x}-{y}-0-255-0")
+
+    return " ".join(filled_pixels)
+
 
 if len(sys.argv) < 2:
     print("Usage: python generate-github-commit-graph.py <username> [year]")
@@ -104,9 +138,12 @@ else:
     year = datetime.datetime.now().year
 
 try:
+    this_year = (display_numbers(year - 2000))
+    last_year = (display_numbers(year - 2001, True))
+
     result = generate_contribution_graph(username, year)
-    print(result)
     resultPreviousYear = generate_contribution_graph(username, year - 1, True)
-    print(resultPreviousYear)
+    print(f"{this_year} {last_year} {result} {resultPreviousYear}")
+
 except Exception as e:
     print(f"An error occurred: {str(e)}")
