@@ -73,6 +73,20 @@ def generate_contribution_graph(username, year, is_previous_year = False):
         r, g, b = 0, 0, 255
         output.append(f"{x}-{y}-{r}-{g}-{b}")
 
+    # Print row of pixels at top to show start of year. Stop at current week
+    current_week = datetime.datetime.now().isocalendar()[1]
+    if current_week > 26:
+        current_week = current_week - 26
+
+    for x in range (32):
+        y = 0
+        if x <= current_week:
+            r, g, b = 0, 0, 255
+        else:
+            r, g, b = 0, 0, 100
+
+        output.append(f"{x}-{y}-{r}-{g}-{b}")
+
     return " ".join(output)
 
 if len(sys.argv) < 2:
