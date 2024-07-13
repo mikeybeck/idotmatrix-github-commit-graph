@@ -83,7 +83,7 @@ def generate_contribution_graph(username, year, is_previous_year = False):
         if x <= current_week + 5:
             r, g, b = 0, 0, 255
         else:
-            r, g, b = 0, 0, 100
+            r, g, b = 0, 0, 50
 
         output.append(f"{x}-{y}-{r}-{g}-{b}")
 
@@ -118,7 +118,7 @@ def display_numbers(number, last_year = False):
                     x = col + 1
                     y = digit_index * 6 + row + y_offset + 3
 
-                    filled_pixels.append(f"{x}-{y}-0-255-0")
+                    filled_pixels.append(f"{x}-{y}-255-0-0")
 
     return " ".join(filled_pixels)
 
