@@ -32,7 +32,7 @@ def generate_contribution_graph(username, year, is_previous_year = False):
         start_y_1 = 17
         start_y_2 = 25
 
-        # Display a row of blue squares to separate the two halves
+        # Display a row of blue squares to separate the two years
         for x in range(32):
             y = start_y_1 - 1
             r, g, b = 0, 0, 255
@@ -50,7 +50,7 @@ def generate_contribution_graph(username, year, is_previous_year = False):
             if intensity != 0:
                 output.append(f"{x}-{y}-{r}-{g}-{b}")
 
-    # Display a row of blue squares to separate the two halves
+    # Display a row of blue squares to separate the two halves of the year
     for x in range(6, 32):
         y = start_y_1 + 7
         r, g, b = 0, 0, 255
@@ -67,13 +67,13 @@ def generate_contribution_graph(username, year, is_previous_year = False):
             if intensity != 0:
                 output.append(f"{x}-{y}-{r}-{g}-{b}")
 
-    # Print vertical row of blue squares to show start of year
+    # Print vertical row of blue squares to separate year numbers from the graph
     for y in range(32):
         x = 5
         r, g, b = 0, 0, 255
         output.append(f"{x}-{y}-{r}-{g}-{b}")
 
-    # Print row of pixels at top to show start of year. Stop at current week
+    # Print row of pixels at top to indicate how many weeks have passed in the current year
     current_week = datetime.datetime.now().isocalendar()[1]
     if current_week > 26:
         current_week = current_week - 26
