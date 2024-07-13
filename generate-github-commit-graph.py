@@ -20,14 +20,27 @@ def map_color_to_rgb(intensity):
     }
     return color_map.get(intensity, (0, 0, 0))
 
-def generate_contribution_graph(username, year):
+def generate_contribution_graph(username, year, is_previous_year = False):
     data = get_github_contributions(username, year)
     contributions = data['contributions']
 
     output = []
+
+    start_y_1 = 0
+    start_y_2 = 8
+    if is_previous_year:
+        start_y_1 = 17
+        start_y_2 = 25
+
+        # Display a row of blue squares to separate the two halves
+        for x in range(32):
+            y = start_y_1 - 1
+            r, g, b = 0, 0, 255
+            output.append(f"{x}-{y}-{r}-{g}-{b}")
+
     contribution_index = 0
     for x in range(6, 32):
-        for y in range(7):
+        for y in range(start_y_2, start_y_2 + 7):
             r, g, b = 0, 0, 0
             intensity = 0
             if contribution_index < len(contributions):
@@ -39,12 +52,12 @@ def generate_contribution_graph(username, year):
 
     # Display a row of blue squares to separate the two halves
     for x in range(32):
-        y = 7
+        y = start_y_1 + 7
         r, g, b = 0, 0, 255
         output.append(f"{x}-{y}-{r}-{g}-{b}")
 
     for x in range(6, 32):
-        for y in range(8, 16):
+        for y in range(start_y_1, start_y_1 + 7):
             r, g, b = 0, 0, 0
             intensity = 0
             if contribution_index < len(contributions):
@@ -53,6 +66,12 @@ def generate_contribution_graph(username, year):
                 contribution_index += 1
             if intensity != 0:
                 output.append(f"{x}-{y}-{r}-{g}-{b}")
+
+    # Print vertical row of blue squares to show start of year
+    for y in range(32):
+        x = 5
+        r, g, b = 0, 0, 255
+        output.append(f"{x}-{y}-{r}-{g}-{b}")
 
     return " ".join(output)
 
@@ -73,5 +92,7 @@ else:
 try:
     result = generate_contribution_graph(username, year)
     print(result)
+    resultPreviousYear = generate_contribution_graph(username, year - 1, True)
+    print(resultPreviousYear)
 except Exception as e:
     print(f"An error occurred: {str(e)}")
